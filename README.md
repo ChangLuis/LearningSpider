@@ -2,4 +2,4 @@
 
 ### Goal
 
-* Using requests and beautifulsoup to fetch the web
+* Using requests and beautifulsoup to fetch the web material I want.
