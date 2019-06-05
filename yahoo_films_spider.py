@@ -18,6 +18,10 @@ for film in films:
     time = film.select(".release_movie_time")[0].text
     dt = datetime.strptime(time,"上映日期 ： %Y-%m-%d")
     dt_formate = dt.strftime("%Y-%m-%d")
+
+    content = film.select(".release_text span")[0].text.strip()
+
     print(f"{film_chinese_title}, {film_eng_title}, {dt_formate}")
     print(film_address,"\n")
+    print(content,"\n")
 
