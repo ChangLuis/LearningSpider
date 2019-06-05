@@ -4,6 +4,7 @@
 import requests
 from bs4 import BeautifulSoup as BS
 from datetime import datetime
+from pandas import DataFrame as DF
 
 def get_page_films(current_url):
     res = requests.get(current_url)
@@ -19,8 +20,8 @@ def get_page_films(current_url):
 
         time = film.select(".release_movie_time")[0].text
         dt = datetime.strptime(time,"上映日期 ： %Y-%m-%d")
-        dict_film["dt_formate"] = dt.strftime("%Y-%m-%d")
-        dict_film["content"] = film.select(".release_text span")[0].text.strip().replace("\n","").replace("\r","").replace("\xa0","")
+        dict_film["release_date"] = dt.strftime("%Y-%m-%d")
+        dict_film["introdution"] = film.select(".release_text span")[0].text.strip().replace("\n","").replace("\r","").replace("\xa0","")
         list_films.append(dict_film)
     return list_films
 
@@ -29,6 +30,10 @@ def get_pages(page_end):
     for num in range(1,page_end+1):
         url = f"https://movies.yahoo.com.tw/movie_comingsoon.html?page={num}"
         all_pages_films.extend(get_page_films(url))
-    print(all_pages_films)
+    return all_pages_films
+    
 
-get_pages(1)
+if __name__ == "__main__":
+
+    information = DF(get_pages(1))
+    information.to_excel("The_upcoming_films.xlsx")
